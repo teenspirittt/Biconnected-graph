@@ -4,20 +4,22 @@
 
 
 
-template <typename I, typename V>
+template<typename I, typename V>
 class Vertex {
-    public:
-        std::string  name;
-        V value;
-        I index;
-        Vertex();
-        Vertex(std::string name, V value);
-        Vertex(const std::string &name);
-        std::string getName();
-        V GetValue(I index_);
-        bool SetName(std::string name_, I index_);
-        bool SetValue(I index_, V value_);
+ public:
+  V value;
+  I index;
+  Vertex();
+  Vertex(int id_, V value_);
+  int getId();
+  V GetValue();
+  void SetId(int id_);
+  void SetValue(V value_);
+ private:
+  int id;
+
 };
+
 
 
 

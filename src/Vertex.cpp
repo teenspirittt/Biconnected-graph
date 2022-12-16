@@ -1,41 +1,42 @@
 #include "Vertex.h"
-
-
-
-template<typename I, typename V>
-Vertex<I, V>::Vertex() = default;
-
+#include "Graph.h"
+#include <stdexcept>
 
 template<typename I, typename V>
-Vertex<I, V>::Vertex(std::string name, V value) {
-
+Vertex<I, V>::Vertex() {
+  id = VERTEX_COUNT++;
 }
 
 template<typename I, typename V>
-Vertex<I, V>::Vertex(const std::string &name) {
-
+Vertex<I, V>::Vertex(int id_, V value_) {
+  if (id_ >= VERTEX_COUNT) {
+    throw std::invalid_argument("Invalid id!");
+  } else {
+    id = id_;
+    value = value_;
+  }
 }
 
 template<typename I, typename V>
-std::string Vertex<I, V>::getName() {
-  return std::string();
+int Vertex<I, V>::getId() {
+  return id;
 }
 
 template<typename I, typename V>
-V Vertex<I, V>::GetValue(I index_) {
-  return nullptr;
+V Vertex<I, V>::GetValue() {
+  return value;
 }
 
 template<typename I, typename V>
-bool Vertex<I, V>::SetName(std::string name_, I index_) {
-
-  return false;
+void Vertex<I, V>::SetId(int id_) {
+  id = id_;
 }
 
 template<typename I, typename V>
-bool Vertex<I, V>::SetValue(I index_, V value_) {
-
-  return false;
+void Vertex<I, V>::SetValue(V value_) {
+  value = value_;
 }
+
+
 
 
