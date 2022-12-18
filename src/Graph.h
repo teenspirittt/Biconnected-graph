@@ -3,6 +3,10 @@
 #include "Vertex.h"
 #include "Edge.h"
 #include <vector>
+#include "GraphForm.h"
+#include "GraphList.h"
+#include "GraphMatrix.h"
+#include <stdexcept>
 
 using namespace std;
 
@@ -19,8 +23,8 @@ template<class Vertex, class Edge>
 class Graph {
  public:
   Graph();
-  Graph(int V, int D, int F);
-  Graph(int V, int E, int D, int F);
+  Graph(int vertexCount, bool directed, bool dense);
+  Graph(int vertexCount, int edgeCounter, bool directed, bool dense);
   Graph(Graph &copy);
   ~Graph();
   int GetNumOfVertex();
@@ -42,8 +46,12 @@ class Graph {
   bool dense;          // M - graph
   int edgeCounter;
   vector<Vertex> vertexVector;
-
+  GraphForm<Vertex, Edge> *value;
+  void vertexPutIn(int vertexCount, GraphForm<Vertex, Edge> *value);
 
 };
+
+
+
 
 

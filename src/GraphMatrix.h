@@ -7,6 +7,7 @@
 
 #include "GraphForm.h"
 #include <vector>
+#include <stdexcept>
 
 using namespace std;
 
@@ -14,7 +15,7 @@ template<class Vertex, class Edge>
 class GraphMatrix : public GraphForm<Vertex, Edge> {
  public:
   bool isDirected;
-  GraphMatrix(bool D){
+  GraphMatrix(bool D) {
     isDirected = D;
   }
   bool InsertVertex(int index) override {
@@ -63,6 +64,27 @@ class GraphMatrix : public GraphForm<Vertex, Edge> {
     if (v1 == v2 || matrix[v1][v2] == NULL) return false;
     matrix[v1][v2] = NULL;
     return true;
+  }
+
+  bool isEdgeExist(int v1, int v2) {
+    int size = matrix.size();
+    if (v1 < 0 || v2 < 0 || v1 >= size || v2 >= size)
+      return false;
+    if (v1 == v2)
+      return false;
+    if (matrix[v1][v2] != NULL) {
+      return true;
+    }
+    return false;
+  }
+
+  Edge *getEdge(int v1, int v2) {
+    int size = matrix.size();
+    if (v1 < 0 || v2 < 0 || v1 >= size || v2 >= size)
+      throw invalid_argument("Invalid argument!");
+    if (v1 == v2 || matrix[v1][v2] == NULL)
+      throw invalid_argument("Invalid argument!");
+    return matrix[v1][v2];
   }
 
  private:
