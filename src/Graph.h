@@ -30,10 +30,8 @@ class Graph {
   int GetNumOfVertex();
   int GetNumOfEdges();
   bool IsDirected();
-  bool IsOriented();
-  bool IsList();
   bool IsMatrix();
-  int GetDenseCoefficient();
+  double GetDenseCoefficient();
   void ToListGraph();
   void ToMatrixGraph();
   Vertex *insertVertex();
@@ -50,6 +48,9 @@ class Graph {
   void vertexPutIn(int vertexCount, GraphForm<Vertex, Edge> *value);
 
 };
+
+
+
 
 
 

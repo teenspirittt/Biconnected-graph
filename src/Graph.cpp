@@ -85,6 +85,56 @@ void Graph<Vertex, Edge>::vertexPutIn(int vertexCount, GraphForm<Vertex, Edge> *
   }
 }
 
+template<class Vertex, class Edge>
+int Graph<Vertex, Edge>::GetNumOfEdges() {
+  return vertexVector.size();
+}
+
+template<class Vertex, class Edge>
+int Graph<Vertex, Edge>::GetNumOfVertex() {
+  return edgeCounter;
+}
+
+template<class Vertex, class Edge>
+double Graph<Vertex, Edge>::GetDenseCoefficient() {
+  double max = vertexVector.size() * (vertexVector.size() - 1);
+  if (!IsDirected()) {
+    max /= 2;
+  }
+  if (max == 0) {
+    return -1;
+  } else {
+    return edgeCounter / max;
+  }
+}
+
+template<class Vertex, class Edge>
+bool Graph<Vertex, Edge>::IsMatrix() {
+  return dense;
+}
+
+template<class Vertex, class Edge>
+bool Graph<Vertex, Edge>::IsDirected() {
+  return directed;
+}
+
+template<class Vertex, class Edge>
+void Graph<Vertex, Edge>::ToListGraph() {
+  GraphForm<Vertex, Edge> *newValue = new GraphList<Vertex, Edge>(this->directed);
+  // Create vertices
+  for (int i = 0; i < vertexVector.size(); ++i)
+    newValue->InsertVertex(i);
+
+  // Transfer edges
+  for (int i = 0; i < vertexVector.size(); ++i)
+    for (int j = 0; j < vertexVector.size(); ++j)
+      if (value->isEdgeExist(i, j))
+        newValue->InsertEdge(i, j, value->getEdge(i, j));
+
+  delete value;
+  value = newValue;
+  dense = false;
+}
 
 
 
