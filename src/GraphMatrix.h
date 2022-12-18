@@ -55,6 +55,7 @@ class GraphMatrix : public GraphForm<Vertex, Edge> {
   }
 
   bool DeleteEdge(int v1, int v2) override {
+
     int size = matrix.size();
     // incorrect vertex number
     if (v1 < 0 || v2 < 0 || v1 >= size || v2 >= size) return false;
