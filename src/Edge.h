@@ -2,7 +2,7 @@
 
 #include "Vertex.h"
 
-template <class Vertex, typename V>
+template <class Vertex, typename W, typename V>
 class Edge {
     public:
         Edge(Vertex *vertex1, Vertex *vertex2);
@@ -17,7 +17,7 @@ class Edge {
     private:
         Vertex *vertexIn;
         Vertex *vertexOut;
-        int weight;
+        W weight;
         V value;
 };
 

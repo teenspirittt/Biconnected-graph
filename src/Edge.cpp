@@ -2,8 +2,8 @@
 #include "Edge.h"
 #include <stdexcept>
 
-template<class Vertex, typename V>
-Edge<Vertex, V>::Edge(Vertex *vertex1, Vertex *vertex2) {
+template <class Vertex, typename W, typename V>
+Edge<Vertex,W, V>::Edge(Vertex *vertex1, Vertex *vertex2) {
   if (vertex1 == nullptr || vertex2 == nullptr) {
     throw std::invalid_argument("One of the vertices is null!");
   } else {
@@ -12,56 +12,56 @@ Edge<Vertex, V>::Edge(Vertex *vertex1, Vertex *vertex2) {
   }
 }
 
-template<class Vertex, typename V>
-Edge<Vertex, V>::Edge(Vertex *vertex1, Vertex *vertex2, int weight_) {
+template <class Vertex, typename W, typename V>
+Edge<Vertex,W, V>::Edge(Vertex *vertex1, Vertex *vertex2, int weight) {
   if (vertex1 == nullptr || vertex2 == nullptr) {
     throw std::invalid_argument("One of the vertices is null!");
   } else {
     vertexIn = vertex1;
     vertexOut = vertex2;
-    weight = weight_;
+    this->weight = weight;
   }
 }
 
-template<class Vertex, typename V>
-Edge<Vertex, V>::Edge(Vertex *vertex1, Vertex *vertex2, int weight_, V value_) {
+template <class Vertex, typename W, typename V>
+Edge<Vertex,W, V>::Edge(Vertex *vertex1, Vertex *vertex2, int weight, V value) {
   if (vertex1 == nullptr || vertex2 == nullptr) {
     throw std::invalid_argument("One of the vertices is null!");
   } else {
     vertexIn = vertex1;
     vertexOut = vertex2;
-    weight = weight_;
-    value = value_;
+    this->weight = weight;
+    this->value = value;
   }
 }
 
-template<class Vertex, typename V>
-Vertex *Edge<Vertex, V>::GetVertexOut() {
+template <class Vertex, typename W, typename V>
+Vertex *Edge<Vertex,W, V>::GetVertexOut() {
   return vertexOut;
 }
 
-template<class Vertex, typename V>
-Vertex *Edge<Vertex, V>::GetVertexIn() {
+template <class Vertex, typename W, typename V>
+Vertex *Edge<Vertex,W, V>::GetVertexIn() {
   return vertexIn;
 }
 
-template<class Vertex, typename V>
-void Edge<Vertex, V>::SetValue(V value_) {
-  value = value_;
+template <class Vertex, typename W, typename V>
+void Edge<Vertex,W, V>::SetValue(V value) {
+  this->value = value;
 }
 
-template<class Vertex, typename V>
-void Edge<Vertex, V>::SetWeight(int weight_) {
-  weight = weight_;
+template <class Vertex, typename W, typename V>
+void Edge<Vertex,W, V>::SetWeight(int weight) {
+  this->weight = weight;
 }
 
-template<class Vertex, typename V>
-int Edge<Vertex, V>::GetWeight() {
+template <class Vertex, typename W, typename V>
+int Edge<Vertex,W, V>::GetWeight() {
   return weight;
 }
 
-template<class Vertex, typename V>
-V Edge<Vertex, V>::GetValue() {
+template <class Vertex, typename W, typename V>
+V Edge<Vertex,W, V>::GetValue() {
   return value;
 }
 
