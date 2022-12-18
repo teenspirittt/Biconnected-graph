@@ -4,11 +4,10 @@
 
 
 
-template<typename I, typename V>
+template<typename V>
 class Vertex {
  public:
   V value;
-  I index;
   Vertex();
   Vertex(int id_, V value_);
   int getId();

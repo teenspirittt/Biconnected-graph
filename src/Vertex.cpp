@@ -2,13 +2,13 @@
 #include "Graph.h"
 #include <stdexcept>
 
-template<typename I, typename V>
-Vertex<I, V>::Vertex() {
+template<typename V>
+Vertex<V>::Vertex() {
   id = VERTEX_COUNT++;
 }
 
-template<typename I, typename V>
-Vertex<I, V>::Vertex(int id_, V value_) {
+template<typename V>
+Vertex<V>::Vertex(int id_, V value_) {
   if (id_ >= VERTEX_COUNT) {
     throw std::invalid_argument("Invalid id!");
   } else {
@@ -17,23 +17,23 @@ Vertex<I, V>::Vertex(int id_, V value_) {
   }
 }
 
-template<typename I, typename V>
-int Vertex<I, V>::getId() {
+template<typename V>
+int Vertex<V>::getId() {
   return id;
 }
 
-template<typename I, typename V>
-V Vertex<I, V>::GetValue() {
+template<typename V>
+V Vertex<V>::GetValue() {
   return value;
 }
 
-template<typename I, typename V>
-void Vertex<I, V>::SetId(int id_) {
+template<typename V>
+void Vertex<V>::SetId(int id_) {
   id = id_;
 }
 
-template<typename I, typename V>
-void Vertex<I, V>::SetValue(V value_) {
+template<typename V>
+void Vertex<V>::SetValue(V value_) {
   value = value_;
 }
 
