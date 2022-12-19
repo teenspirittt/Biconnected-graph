@@ -1,9 +1,9 @@
 #include <iostream>
-#include "Graph.h"
+
+#include "menu.h"
 
 int main() {
-  auto *graph = new Graph<Vertex<int>, Edge<Vertex<int>,int,int>>();
-  graph->GetVertex(1);
+  MainMenu();
 
   return 0;
 }

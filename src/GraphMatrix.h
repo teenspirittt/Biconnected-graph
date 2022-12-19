@@ -81,9 +81,9 @@ class GraphMatrix : public GraphForm<Vertex, Edge> {
   Edge *GetEdge(int v1, int v2) {
     int size = matrix.size();
     if (v1 < 0 || v2 < 0 || v1 >= size || v2 >= size)
-      throw invalid_argument("Invalid argument!");
+      return nullptr;
     if (v1 == v2 || matrix[v1][v2] == NULL)
-      throw invalid_argument("Invalid argument!");
+      return nullptr;
     return matrix[v1][v2];
   }
 

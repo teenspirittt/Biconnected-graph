@@ -43,6 +43,8 @@ class Graph {
   Edge *InsertEdge(Vertex *vertex1, Vertex *vertex2);
   bool DeleteEdge(Vertex *vertex1, Vertex *vertex2);
   Edge *GetEdge(Vertex *vertex1, Vertex *vertex2);
+  void printGraph();
+  bool IsEdgeExist(int v1, int v2);
  private:
   bool directed;
   bool dense;          // M - graph
@@ -50,8 +52,9 @@ class Graph {
   vector<Vertex *> vertexVector;
   GraphForm<Vertex, Edge> *value;
   void VertexPutIn(int vertexCount, GraphForm<Vertex, Edge> *value);
-
 };
+
+
 
 
 

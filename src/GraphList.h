@@ -6,7 +6,6 @@
 #define BICONNECTED_GRAPH_SRC_GRAPHLIST_H_
 
 #include <list>
-#include <iterator>
 #include "GraphMatrix.h"
 
 template<class Vertex, class Edge>
@@ -135,10 +134,14 @@ class GraphList : public GraphForm<Vertex, Edge> {
   Edge *GetEdge(int v1, int v2) {
     int size = edgeList.size();
     if (v1 < 0 || v2 < 0 || v1 >= size || v2 >= size)
-      throw invalid_argument("Invalid argument!");
+      return nullptr;
     // Loop
     if (v1 == v2)
-      throw invalid_argument("Invalid argument!");
+      return nullptr;
+
+    if (edgeList[v1].size() == 0 || edgeList[v2].size() == 0)
+      return nullptr;
+
     for (typename list<Node>::iterator j = edgeList[v1].begin(); j != edgeList[v1].end(); ++j)
       if ((*j).v2 == v2)
         return (*j).edge;

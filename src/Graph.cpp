@@ -91,12 +91,12 @@ void Graph<Vertex, Edge>::VertexPutIn(int vertexCount, GraphForm<Vertex, Edge> *
 
 template<class Vertex, class Edge>
 int Graph<Vertex, Edge>::GetNumOfEdges() {
-  return vertexVector.size();
+  return edgeCounter;
 }
 
 template<class Vertex, class Edge>
 int Graph<Vertex, Edge>::GetNumOfVertex() {
-  return edgeCounter;
+  return vertexVector.size();
 }
 
 template<class Vertex, class Edge>
@@ -211,7 +211,7 @@ Edge *Graph<Vertex, Edge>::InsertEdge(Vertex *vertex1, Vertex *vertex2) {
 template<class Vertex, class Edge>
 Vertex *Graph<Vertex, Edge>::GetVertexByIndex(unsigned int index) {
   if (index < 0 || index >= vertexVector.size())
-    throw invalid_argument("Invalid argument!");
+    return nullptr;
   return vertexVector[index];
 }
 
@@ -222,7 +222,7 @@ Vertex *Graph<Vertex, Edge>::GetVertex(unsigned int id) {
     if (vertexVector[i]->GetId() == id)
       return vertexVector[i];
     if (i == vertexVector.size())
-      throw invalid_argument("Invalid argument!");
+      return nullptr;
   }
   return nullptr;
 }
@@ -241,8 +241,58 @@ bool Graph<Vertex, Edge>::DeleteEdge(Vertex *vertex1, Vertex *vertex2) {
 template<class Vertex, class Edge>
 Edge *Graph<Vertex, Edge>::GetEdge(Vertex *vertex1, Vertex *vertex2) {
   Edge *e;
-  e = value->GetEdge(GetIndex(vertex1), GetIndex(vertex2));
+  e = value->GetEdge(vertex1->GetId(), vertex2->GetId());
+
   return e;
+}
+
+template<class Vertex, class Edge>
+void Graph<Vertex, Edge>::printGraph() {
+  int i, j;
+  Vertex *v;
+  Edge *e;
+  if (IsMatrix()) {
+    cout << "  ";
+    for (i = 0; i < GetNumOfVertex(); i++) {
+      v = GetVertex(i);
+      cout << "    " << v->GetId();
+    }
+    cout << endl;
+    for (i = 0; i < 5 * GetNumOfVertex(); i++)
+      cout << "_";
+    cout << endl;
+    for (i = 0; i < GetNumOfVertex(); i++) {
+      v = GetVertex(i);
+      cout << v->GetId() << "|";
+      for (j = 0; j < GetNumOfVertex(); j++)
+        if (IsEdgeExist(i, j)) {
+          e = GetEdge(GetVertex(i), GetVertex(j));
+          cout << "    " << e->GetWeight();
+        } else
+          cout << "    " << "0";
+      cout << endl;
+    }
+  } else {
+    for (i = 0; i < GetNumOfVertex(); i++) {
+      v = GetVertex(i);
+      cout << "*" << v->GetId() << "->";
+      for (j = 0; j < GetNumOfVertex(); j++) {
+        v = GetVertex(j);
+        if (IsEdgeExist(i, j))
+          cout << v->GetId() << "->";
+      }
+      cout << endl;
+    }
+  }
+}
+
+template<class Vertex, class Edge>
+bool Graph<Vertex, Edge>::IsEdgeExist(int v1, int v2) {
+  if (v1 < 0 || v1 >= vertexVector.size())
+    return false;
+  if (v2 < 0 || v2 >= vertexVector.size())
+    return false;
+  return value->IsEdgeExist(v1, v2);
 }
 
 template

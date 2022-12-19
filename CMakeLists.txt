@@ -12,5 +12,5 @@ add_executable(Biconnected-Graph
         src/GraphForm.h
         src/GraphMatrix.h
         src/GraphList.h
-        src/Menu.h)
+        src/menu.h)
 

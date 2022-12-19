@@ -24,6 +24,7 @@ class Edge {
       this->weight = weight;
     }
   }
+
   Edge(Vertex *vertex1, Vertex *vertex2, int weight_, V value_) {
     if (vertex1 == nullptr || vertex2 == nullptr) {
       throw std::invalid_argument("One of the vertices is null!");
@@ -34,6 +35,7 @@ class Edge {
       this->value = value;
     }
   }
+
   Vertex *GetVertexIn() {
     return vertexIn;
   }
@@ -43,7 +45,7 @@ class Edge {
   int GetWeight() {
     return weight;
   }
-  void SetWeight(int weight) {
+  void SetWeight(W weight) {
     this->weight = weight;
   }
   V GetValue() {
