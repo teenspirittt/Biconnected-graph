@@ -213,6 +213,7 @@ void MainMenu() {
           cout << "TO LIST";
         } else {
           graph->ToMatrixGraph();
+
           cout << "TO MATRIX";
         }
         break;
