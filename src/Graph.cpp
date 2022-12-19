@@ -44,14 +44,17 @@ Graph<Vertex, Edge>::Graph(int vertexCount, int edgeCount, bool directed, bool d
   while (edgeCounter < edgeCount) {
     v1 = rand() % vertexCount;
     v2 = rand() % vertexCount;
-    if (v1 == v2)
+    if (v1 == v2) {
       continue;
-    if (value->IsEdgeExist(v1, v2))
+    }
+    if (value->IsEdgeExist(v1, v2)) {
       continue;
+    }
     Edge *e = new Edge(vertexVector[v1], vertexVector[v2], (rand() % 19) + 1);
     value->InsertEdge(v1, v2, e);
-    if (!directed)
+    if (!directed) {
       value->InsertEdge(v2, v1, e);
+    }
     edgeCounter++;
   }
 }
@@ -172,6 +175,13 @@ bool Graph<Vertex, Edge>::DeleteVertex(Vertex *vertex) {
     return true;
   }
   return false;
+}
+
+template<class Vertex, class Edge>
+void Graph<Vertex, Edge>::DeleteVertex(int index) {
+  edgeCounter -= value->DeleteOutEdges(index, directed);
+  if (value->DeleteVertex(index))
+    vertexVector.erase(vertexVector.begin() + index);
 }
 
 template<class Vertex, class Edge>

@@ -36,7 +36,7 @@ class Graph {
   void ToMatrixGraph();
   Vertex *InsertVertex();
   bool DeleteVertex(Vertex *vertex);
-  bool DeleteVertex(int index);
+  void DeleteVertex(int index);
   int GetIndex(Vertex *vertex);
   Vertex *GetVertex(unsigned int id);
   Vertex *GetVertexByIndex(unsigned int index);
@@ -52,6 +52,8 @@ class Graph {
   void VertexPutIn(int vertexCount, GraphForm<Vertex, Edge> *value);
 
 };
+
+
 
 
 
