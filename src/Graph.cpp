@@ -242,7 +242,6 @@ template<class Vertex, class Edge>
 Edge *Graph<Vertex, Edge>::GetEdge(Vertex *vertex1, Vertex *vertex2) {
   Edge *e;
   e = value->GetEdge(vertex1->GetId(), vertex2->GetId());
-
   return e;
 }
 
@@ -274,6 +273,8 @@ void Graph<Vertex, Edge>::printGraph() {
     }
   } else {
     for (i = 0; i < GetNumOfVertex(); i++) {
+      if(GetVertex(i) == nullptr)
+        continue;
       v = GetVertex(i);
       cout << "*" << v->GetId() << "->";
       for (j = 0; j < GetNumOfVertex(); j++) {

@@ -51,34 +51,29 @@ void ShowMainMenu() {
           "  8 SET EDGE VALUE\n"
           "  9 SET EDGE WEIGHT\n"
           "  10 VERTEX QUANTITY\n"
-          " 11 EDGE QUANTITY\n"
-          " 12 K\n"
-          " 13 IS DIRECTED\n"
-          " 14 IS MATRIX\n"
-          " 15 CHANGE FORM\n"
-          " 16 TEST ITERATOR\n"
-          " 17 CLEAR\n"
-          " 0 EXIT\n"
+          "  11 EDGE QUANTITY\n"
+          "  12 Weight K\n"
+          "  13 IS DIRECTED\n"
+          "  14 IS MATRIX\n"
+          "  15 CHANGE FORM\n"
+          "  16 TEST ITERATOR\n"
+          "  17 CLEAR\n"
+          "  0 EXIT\n"
           "===================\n";
 }
 
 void MainMenu() {
   int choice;
-  int pos;
-  uint list_size;
   bool flag = true;
-  bool form_flag = false;
-  bool iterator_flag = false;
   string str;
   int val;
-  int key;
   int id, v1, v2;
 
   auto *graph = new Graph<Vertex<int>, Edge<Vertex<int>, int, int>>();
 
   while (flag) {
     system(clear_console_);
-    // graph->printGraph();
+     graph->printGraph();
     ShowMainMenu();
     choice = GetNumber(0, 14, "");
     switch (choice) {
@@ -188,7 +183,7 @@ void MainMenu() {
         cout << graph->GetNumOfEdges() << endl;;
         break;
       }
-        /* K */
+        /* weight  K */
       case 12: {
         cout << graph->GetDenseCoefficient() << endl;;
         break;
@@ -213,7 +208,6 @@ void MainMenu() {
           cout << "TO LIST";
         } else {
           graph->ToMatrixGraph();
-
           cout << "TO MATRIX";
         }
         break;
