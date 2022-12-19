@@ -1,3 +1,4 @@
+#include <iostream>
 #include "Graph.h"
 
 template<class Vertex, class Edge>
@@ -14,7 +15,7 @@ Graph<Vertex, Edge>::Graph(int vertexCount, bool directed, bool dense) {
     value = new GraphMatrix<Vertex, Edge>(directed);
   else
     value = new GraphMatrix<Vertex, Edge>(directed);
-  vertexPutIn(vertexCount, value);
+  VertexPutIn(vertexCount, value);
   this->dense = dense;
   this->directed = directed;
   edgeCounter = 0;
@@ -27,7 +28,7 @@ Graph<Vertex, Edge>::Graph(int vertexCount, int edgeCount, bool directed, bool d
     value = new GraphMatrix<Vertex, Edge>(directed);
   else
     value = new GraphMatrix<Vertex, Edge>(directed);
-  vertexPutIn(vertexCount, value);
+  VertexPutIn(vertexCount, value);
   this->dense = dense;
   this->directed = directed;
 
@@ -45,7 +46,7 @@ Graph<Vertex, Edge>::Graph(int vertexCount, int edgeCount, bool directed, bool d
     v2 = rand() % vertexCount;
     if (v1 == v2)
       continue;
-    if (value->isEdgeExist(v1, v2))
+    if (value->IsEdgeExist(v1, v2))
       continue;
     Edge *e = new Edge(vertexVector[v1], vertexVector[v2], (rand() % 19) + 1);
     value->InsertEdge(v1, v2, e);
@@ -56,11 +57,11 @@ Graph<Vertex, Edge>::Graph(int vertexCount, int edgeCount, bool directed, bool d
 }
 
 template<class Vertex, class Edge>
-Graph<Vertex, Edge>::Graph(Graph &copy) {
+Graph<Vertex, Edge>::Graph(Graph<Vertex, Edge> &copy) {
   if (copy.IsMatrix())
-    value = new GraphMatrix<Vertex, Edge>(*(copy.value));
+    value = new GraphMatrix<Vertex, Edge>(copy.value);
   else
-    value = new GraphList<Vertex, Edge>(*(copy.value));
+    value = new GraphList<Vertex, Edge>(copy.value);
   directed = copy.directed;
   dense = copy.dense;
   delete value;
@@ -74,7 +75,7 @@ Graph<Vertex, Edge>::~Graph() {
 }
 
 template<class Vertex, class Edge>
-void Graph<Vertex, Edge>::vertexPutIn(int vertexCount, GraphForm<Vertex, Edge> *value) {
+void Graph<Vertex, Edge>::VertexPutIn(int vertexCount, GraphForm<Vertex, Edge> *value) {
   for (int i = 0; i < vertexCount; ++i) {
     value->InsertVertex(i);
     for (int j = 0; j < vertexCount; ++j) {
@@ -128,13 +129,114 @@ void Graph<Vertex, Edge>::ToListGraph() {
   // Transfer edges
   for (int i = 0; i < vertexVector.size(); ++i)
     for (int j = 0; j < vertexVector.size(); ++j)
-      if (value->isEdgeExist(i, j))
-        newValue->InsertEdge(i, j, value->getEdge(i, j));
+      if (value->IsEdgeExist(i, j))
+        newValue->InsertEdge(i, j, value->GetEdge(i, j));
 
   delete value;
   value = newValue;
   dense = false;
 }
+
+template<class Vertex, class Edge>
+void Graph<Vertex, Edge>::ToMatrixGraph() {
+  GraphForm<Vertex, Edge> *newValue = new GraphMatrix<Vertex, Edge>(this->directed);
+
+  for (int i = 0; i < vertexVector.size(); ++i)
+    newValue->InsertVertex(i);
+
+  for (int i = 0; i < vertexVector.size(); ++i)
+    for (int j = 0; j < vertexVector.size(); ++j)
+      if (value->IsEdgeExist(i, j))
+        newValue->InsertEdge(i, j, value->GetEdge(i, j));
+
+  delete value;
+  value = newValue;
+  dense = true;
+}
+
+template<class Vertex, class Edge>
+Vertex *Graph<Vertex, Edge>::InsertVertex() {
+  auto *vertex = new Vertex;
+  if ((value->InsertVertex(vertexVector.size()) == false))
+    return nullptr;
+  vertexVector.push_back(vertex);
+  return vertex;
+}
+
+template<class Vertex, class Edge>
+bool Graph<Vertex, Edge>::DeleteVertex(Vertex *vertex) {
+  int index = GetIndex(vertex);
+  edgeCounter -= value->DeleteOutEdges(index, directed);
+  if (value->DeleteVertex(index)) {
+    vertexVector.erase(vertexVector.begin() + index);
+    return true;
+  }
+  return false;
+}
+
+template<class Vertex, class Edge>
+int Graph<Vertex, Edge>::GetIndex(Vertex *vertex) {
+  int index = 0;
+  for (int i = 0; i < vertexVector.size(); ++i) {
+    if (vertexVector[index] == vertex)
+      break;
+    ++index;
+  }
+  if (index == vertexVector.size())
+    throw invalid_argument("Invalid argument!");
+  return index;
+}
+
+template<class Vertex, class Edge>
+Edge *Graph<Vertex, Edge>::InsertEdge(Vertex *vertex1, Vertex *vertex2) {
+  Edge *e = new Edge(vertex1, vertex2);
+  if (!value->InsertEdge(GetIndex(vertex1), GetIndex(vertex2), e))
+    throw invalid_argument("Invalid argument!");
+  if (!directed)
+    value->InsertEdge(GetIndex(vertex2), GetIndex(vertex1), e);
+  ++edgeCounter;
+  return e;
+}
+
+template<class Vertex, class Edge>
+Vertex *Graph<Vertex, Edge>::GetVertexByIndex(unsigned int index) {
+  if (index < 0 || index >= vertexVector.size())
+    throw invalid_argument("Invalid argument!");
+  return vertexVector[index];
+}
+
+template<class Vertex, class Edge>
+Vertex *Graph<Vertex, Edge>::GetVertex(unsigned int id) {
+  int i;
+  for (i = 0; i < vertexVector.size(); ++i) {
+    if (vertexVector[i]->GetId() == id)
+      return vertexVector[i];
+    if (i == vertexVector.size())
+      throw invalid_argument("Invalid argument!");
+  }
+  return nullptr;
+}
+
+template<class Vertex, class Edge>
+bool Graph<Vertex, Edge>::DeleteEdge(Vertex *vertex1, Vertex *vertex2) {
+  if (value->DeleteEdge(GetIndex(vertex1), GetIndex(vertex2))) {
+    --edgeCounter;
+    if (!directed)
+      value->DeleteEdge(GetIndex(vertex2), GetIndex(vertex1));
+    return true;
+  } else
+    return false;
+}
+
+template<class Vertex, class Edge>
+Edge *Graph<Vertex, Edge>::GetEdge(Vertex *vertex1, Vertex *vertex2) {
+  Edge *e;
+  e = value->GetEdge(GetIndex(vertex1), GetIndex(vertex2));
+  return e;
+}
+
+template
+class Graph<Vertex<int>, Edge<Vertex<int>, int, int>>;
 
 
 

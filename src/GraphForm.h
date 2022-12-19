@@ -14,8 +14,11 @@ class GraphForm {
   virtual bool DeleteVertex(int index) = 0;
   virtual bool InsertEdge(int v1, int v2, Edge *e) = 0;
   virtual bool DeleteEdge(int v1, int v2) = 0;
-  virtual bool isEdgeExist(int v1, int v2) = 0;
-  virtual Edge* getEdge(int v1, int v2) = 0;
+  virtual bool IsEdgeExist(int v1, int v2) = 0;
+  // Delete out edges from vertex
+  virtual int DeleteOutEdges(int index, bool directed) = 0;
+  virtual Edge* GetEdge(int v1, int v2) = 0;
 };
+
 
 #endif //BICONNECTED_GRAPH_SRC_GRAPHFORM_H_

@@ -17,7 +17,7 @@ using namespace std;
  * V - vertexes
 */
 
-static int VERTEX_COUNT = 0;
+
 
 template<class Vertex, class Edge>
 class Graph {
@@ -25,7 +25,7 @@ class Graph {
   Graph();
   Graph(int vertexCount, bool directed, bool dense);
   Graph(int vertexCount, int edgeCounter, bool directed, bool dense);
-  Graph(Graph &copy);
+  Graph(Graph<Vertex, Edge> &copy);
   ~Graph();
   int GetNumOfVertex();
   int GetNumOfEdges();
@@ -34,20 +34,32 @@ class Graph {
   double GetDenseCoefficient();
   void ToListGraph();
   void ToMatrixGraph();
-  Vertex *insertVertex();
-  bool DeleteVertex(Vertex vertex);
-  Edge *InsertEdge(Vertex vertex1, Vertex vertex2);
-  bool DeleteEdge(Vertex vertex1, Vertex vertex2);
-  Edge *GetEdge(Vertex vertex1, Vertex vertex2);
+  Vertex *InsertVertex();
+  bool DeleteVertex(Vertex *vertex);
+  bool DeleteVertex(int index);
+  int GetIndex(Vertex *vertex);
+  Vertex *GetVertex(unsigned int id);
+  Vertex *GetVertexByIndex(unsigned int index);
+  Edge *InsertEdge(Vertex *vertex1, Vertex *vertex2);
+  bool DeleteEdge(Vertex *vertex1, Vertex *vertex2);
+  Edge *GetEdge(Vertex *vertex1, Vertex *vertex2);
  private:
   bool directed;
   bool dense;          // M - graph
   int edgeCounter;
-  vector<Vertex> vertexVector;
+  vector<Vertex *> vertexVector;
   GraphForm<Vertex, Edge> *value;
-  void vertexPutIn(int vertexCount, GraphForm<Vertex, Edge> *value);
+  void VertexPutIn(int vertexCount, GraphForm<Vertex, Edge> *value);
 
 };
+
+
+
+
+
+
+
+
 
 
 

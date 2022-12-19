@@ -1,6 +1,9 @@
 #include <iostream>
+#include "Graph.h"
 
 int main() {
-  std::cout << "Hello World";
+  auto *graph = new Graph<Vertex<int>, Edge<Vertex<int>,int,int>>();
+  graph->GetVertex(1);
+
   return 0;
 }
