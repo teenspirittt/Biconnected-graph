@@ -81,6 +81,7 @@ void MainMenu() {
   bool flag = true;
   bool viFlag = false;
   bool eiFlag = false;
+  bool oeiFlag = false;
   string str;
   int val;
   int id, v1, v2;
@@ -97,6 +98,7 @@ void MainMenu() {
       case 1: {
         if (graph->InsertVertex()) cout << "ADD\n" << endl;
         else cout << "FAIL\n" << endl;
+        cin.get();
         break;
       }
         /* remove vertex */
@@ -106,6 +108,7 @@ void MainMenu() {
           cout << "DELETE\n";
         else
           cout << "FAIL\n";
+        cin.get();
         break;
       }
         /* add edge */
@@ -116,6 +119,7 @@ void MainMenu() {
           cout << "ADD\n";
         else
           cout << "FAIL\n";
+        cin.get();
         break;
       }
         /* remove edge */
@@ -126,6 +130,7 @@ void MainMenu() {
           cout << "DELETE\n";
         else
           cout << "FAIL\n";
+        cin.get();
         break;
       }
         /* get vertex val */
@@ -134,6 +139,7 @@ void MainMenu() {
         if (graph->GetVertex(id) != nullptr)
           cout << graph->GetVertex(id)->GetValue() << endl;
         else cout << "FAIL";
+        cin.get();
         break;
       }
         /* set vertex val */
@@ -144,6 +150,7 @@ void MainMenu() {
           graph->GetVertex(id)->SetValue(val);
           cout << "SET\n";
         } else cout << "FAIL\n";
+        cin.get();
         break;
       }
         /* get edge val */
@@ -158,6 +165,7 @@ void MainMenu() {
           else
             cout << "FAIL";
         }
+        cin.get();
         break;
       }
         /* set edge val */
@@ -173,6 +181,7 @@ void MainMenu() {
           else
             cout << "FAIL";
         }
+        cin.get();
         break;
       }
         /* set edge weight */
@@ -188,25 +197,31 @@ void MainMenu() {
           else
             cout << "FAIL";
         }
+        cin.get();
+        break;
       }
         /* vertex quantity */
       case 10: {
         cout << graph->GetNumOfVertex() << endl;
+        cin.get();
         break;
       }
         /* edge quantity */
       case 11: {
         cout << graph->GetNumOfEdges() << endl;;
+        cin.get();
         break;
       }
         /* weight  K */
       case 12: {
-        cout << graph->GetDenseCoefficient() << endl;;
+        cout << graph->GetDenseCoefficient() << endl;
+        cin.get();
         break;
       }
         /* id directed */
       case 13: {
-        cout << graph->IsDirected() << endl;;
+        cout << graph->IsDirected() << endl;
+        cin.get();
         break;
       }
         /* is matrix */
@@ -215,6 +230,7 @@ void MainMenu() {
           cout << "Matrix\n";
         else
           cout << "List\n";
+        cin.get();
         break;
       }
         /* change form */
@@ -226,6 +242,7 @@ void MainMenu() {
           graph->ToMatrixGraph();
           cout << "TO MATRIX";
         }
+        cin.get();
         break;
       }
         /* vertex iter */
@@ -279,7 +296,7 @@ void MainMenu() {
           int viChoice = GetNumber(0, 3, "");
           switch (viChoice) {
             case 1: {
-              eIter = new Graph<Vertex<int, int>, Edge<Vertex<int, int>, int, int>>::EdgeIterator<int> (graph,0);
+              eIter = new Graph<Vertex<int, int>, Edge<Vertex<int, int>, int, int>>::EdgeIterator<int>(graph, 0);
               cout << "BEGIN\n";
               cin.get();
               break;
@@ -310,7 +327,43 @@ void MainMenu() {
       }
         /* ie iter */
       case 18: {
+        oeiFlag = true;
+        int vertexId = GetNumber(INT32_MIN, INT32_MAX, "Enter vertex:\n");
 
+        while (oeiFlag) {
+          system(clear_console_);
+          graph->printGraph();
+          ShowIterMenu();
+          Graph<Vertex<int, int>, Edge<Vertex<int, int>, int, int>>::OutgoingEdgeIterator<int> *oeIter;
+          int viChoice = GetNumber(0, 3, "");
+          switch (viChoice) {
+            case 1: {
+              oeIter = new Graph<Vertex<int, int>, Edge<Vertex<int, int>, int, int>>::OutgoingEdgeIterator<int>(graph,graph->GetVertex(vertexId),0);
+              cout << "BEGIN\n";
+              cin.get();
+              break;
+            }
+            case 2: {
+              ++*oeIter;
+              break;
+            }
+            case 3: {
+              if (oeIter->getEnd())
+                cout << "LOST ITERATOR\n";
+              else
+                cout << "NAME V1= " << oeIter->getIdV1()
+                     << ", VALUE V1= " << oeIter->getValV1() << endl;
+              cout << "NAME V2= " << oeIter->getIdV2()
+                   << ", VALUE V2= " << oeIter->getValV2() << endl;
+              cin.get();
+              break;
+            }
+            case 0: {
+              oeiFlag = false;
+            }
+              break;
+          }
+        }
         break;
       }
         /* Task 1*/

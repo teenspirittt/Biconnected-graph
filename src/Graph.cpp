@@ -206,16 +206,15 @@ int Graph<Vertex, Edge>::GetIndex(Vertex *vertex) {
 template<class Vertex, class Edge>
 Edge *Graph<Vertex, Edge>::InsertEdge(Vertex *vertex1, Vertex *vertex2) {
   Edge *e = new Edge(vertex1, vertex2);
-  if (!value->InsertEdge(GetIndex(vertex1), GetIndex(vertex2), e)){
-    edgeVector.push_back(e);
+  if (!value->InsertEdge(GetIndex(vertex1), GetIndex(vertex2), e)) {
     return nullptr;
   }
 
   if (!directed) {
     value->InsertEdge(GetIndex(vertex2), GetIndex(vertex1), e);
-    edgeVector.push_back(e);
   }
   ++edgeCounter;
+  edgeVector.push_back(e);
   return e;
 }
 
@@ -245,13 +244,16 @@ Vertex *Graph<Vertex, Edge>::GetVertex(unsigned int id) {
 
 template<class Vertex, class Edge>
 bool Graph<Vertex, Edge>::DeleteEdge(Vertex *vertex1, Vertex *vertex2) {
-  if (value->DeleteEdge(GetIndex(vertex1), GetIndex(vertex2))) {
-    --edgeCounter;
-    if (!directed)
-      value->DeleteEdge(GetIndex(vertex2), GetIndex(vertex1));
-    return true;
-  } else
-    return false;
+  Edge *e = GetEdge(vertex1, vertex2);
+
+  for (int i = 0; i < edgeVector.size(); ++i) {
+    if (edgeVector[i] == e)
+      edgeVector.erase(edgeVector.begin() + i);
+  }
+  --edgeCounter;
+  if (!directed)
+    value->DeleteEdge(GetIndex(vertex2), GetIndex(vertex1));
+  return value->DeleteEdge(GetIndex(vertex1), GetIndex(vertex2));
 }
 
 template<class Vertex, class Edge>
@@ -312,11 +314,11 @@ bool Graph<Vertex, Edge>::IsEdgeExist(int v1, int v2) {
   return value->IsEdgeExist(v1, v2);
 }
 
+template
+class Graph<Vertex<string, int>, Edge<Vertex<string, int>, int, int>>;
 
-
-template class Graph<Vertex<string, int>, Edge<Vertex<string, int>, int, int>>;
-
-template class Graph<Vertex<int, int>, Edge<Vertex<int, int>, int, int>>;
+template
+class Graph<Vertex<int, int>, Edge<Vertex<int, int>, int, int>>;
 
 
 

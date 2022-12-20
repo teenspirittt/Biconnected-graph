@@ -1,7 +1,8 @@
 cmake_minimum_required(VERSION 3.14)
 project(Biconnected-Graph)
 set(CMAKE_CXX_STANDARD 14)
-add_executable(Biconnected-Graph
+add_executable(
+        Biconnected-Graph
         src/main.cpp
         src/Graph.cpp
         src/Graph.h
@@ -10,5 +11,7 @@ add_executable(Biconnected-Graph
         src/GraphForm.h
         src/GraphMatrix.h
         src/GraphList.h
-        src/menu.h)
+        src/menu.h
+        src/Task2.h
+        )
 

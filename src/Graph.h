@@ -8,6 +8,8 @@
 #include "GraphMatrix.h"
 #include <stdexcept>
 
+// todo fix iterators(seg)
+
 using namespace std;
 
 template<class Vertex, class Edge>
@@ -60,7 +62,7 @@ class Graph {
         return false;
       }
       current++;
-      if (graph_->vertexVector.size() - 1 == current)
+      if (graph_->vertexVector.size() == current)
         end = true;
       return true;
     };
@@ -105,34 +107,38 @@ class Graph {
    public:
     EdgeIterator() {
       graph = nullptr;
-      id = -1;
+      current = -1;
     }
 
-    EdgeIterator(Graph<Vertex, Edge> *graph_, int id) {
+    EdgeIterator(Graph<Vertex, Edge> *graph_, int current) {
       graph = graph_;
       end = false;
       if (graph->GetNumOfEdges() == 0)
-        id = -1;
+        current = -1;
       else
-        this->id = id;
+        this->current = current;
     }
 
     bool operator++() {
       if (end) {
-        id = -1;
+        current = -1;
         return false;
       }
-      id++;
-      if (graph->GetNumOfEdges() == id)
+      current++;
+      if (graph->edgeVector.size() == current)
         end = true;
-      if (id >= graph->GetNumOfEdges()) {
-        id = -1;
+      if (current >= graph->GetNumOfEdges()) {
+        current = -1;
         return false;
       }
       return true;
     }
 
-    Edge *operator*() { return graph->GetEdges()[id]; }
+    bool getEnd() {
+      return end;
+    }
+
+    Edge *operator*() { return graph->GetEdges()[current]; }
 
     int getIdV1() {
       Edge *e = operator*();
@@ -154,17 +160,87 @@ class Graph {
       return e->GetVertexOut()->GetValue();
     }
 
-    bool getEnd() {
-      return end;
-    }
    private:
     Graph<Vertex, Edge> *graph;
-    int id = 0;
+    int current = 0;
     bool end;
   };
 
-  class IncomingEdgeIterator {
+ public:
+  template<typename V>
+  class OutgoingEdgeIterator {
+   public:
 
+    OutgoingEdgeIterator(Graph *graph, Vertex *vertex, int curr) {
+      this->graph = graph;
+      this->vertex = vertex;
+      if (curr == -1) {
+        current = -1;
+        return;
+      }
+      end = false;
+
+      for (int i = 0; i < graph->edgeVector.size(); ++i)
+        if (graph->GetEdges()[current]->GetVertexIn() == vertex ||
+            (!graph->IsDirected() && graph->GetEdges()[current]->GetVertexOut() == vertex))
+          return;
+      current = -1;
+    }
+
+    OutgoingEdgeIterator(Vertex *vertex) {
+      graph = nullptr;
+      this->vertex = vertex;
+      current = -1;
+      end = false;
+    }
+
+    bool getEnd() {
+      return end;
+    }
+
+    bool operator++() {
+      if (current == -1) {
+        return false;
+      }
+      current++;
+      for (; current < graph->edgeVector.size(); ++current) {
+        if (graph->GetEdges()[current]->GetVertexIn() == vertex ||
+            (!graph->IsDirected() && graph->GetEdges()[current]->GetVertexOut() == vertex)) {
+          return false;
+        }
+
+      }
+      current = -1;
+      return true;
+    }
+
+    Edge *operator*() { return graph->GetEdges()[current]; }
+
+    int getIdV1() {
+      Edge *e = operator*();
+      return e->GetVertexIn()->GetId();
+    }
+
+    int getIdV2() {
+      Edge *e = operator*();
+      return e->GetVertexOut()->GetId();
+    }
+
+    V getValV1() {
+      Edge *e = operator*();
+      return e->GetVertexIn()->GetValue();
+    }
+
+    V getValV2() {
+      Edge *e = operator*();
+      return e->GetVertexOut()->GetValue();
+    }
+
+   private:
+    Graph<Vertex, Edge> *graph;
+    Vertex *vertex;
+    bool end;
+    int current = 0;
   };
 
 };
