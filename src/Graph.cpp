@@ -49,6 +49,7 @@ Graph<Vertex, Edge>::Graph(int vertexCount, int edgeCount, bool directed, bool d
       edgeCount = (vertexCount * (vertexCount - 1) / 2);
   }
   int v1, v2;
+  srand((unsigned) time(NULL));
   while (edgeCounter < edgeCount) {
     v1 = rand() % vertexCount;
     v2 = rand() % vertexCount;

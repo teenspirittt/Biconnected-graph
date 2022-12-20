@@ -15,15 +15,15 @@
 using namespace std;
 
 template<class Vertex, class Edge>
-class Task3 {
+class Task2 {
  public:
-  ~Task3() = default;
+  ~Task2() = default;
 
-  explicit Task3(Graph<Vertex, Edge> *g) {
+  explicit Task2(Graph<Vertex, Edge> *g) {
     Set(g);
   }
 
-  explicit Task3(const Graph<Vertex, Edge> &graph_) {
+  explicit Task2(const Graph<Vertex, Edge> &graph_) {
     if (!graph_.IsMatrix())
       this->value = new GraphMatrix<Vertex, Edge>(graph_.value);
     else
@@ -33,7 +33,7 @@ class Task3 {
   }
 
   void Set(Graph<Vertex, Edge> *g) {
-    if (g->IsDirected()) cout << " FAIL: need non directed " << endl;
+    if (g->IsDirected()) cout << " FAIL: NEED NON-DIRECTED " << endl;
     this->graph = g;
   }
 

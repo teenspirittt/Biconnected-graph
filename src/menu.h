@@ -415,7 +415,7 @@ void MainMenu() {
       }
         /* Task 2 */
       case 20: {
-        auto *task3 = new Task3<Vertex<int, int>, Edge<Vertex<int, int>, int, int>>(graph);
+        auto *task3 = new Task2<Vertex<int, int>, Edge<Vertex<int, int>, int, int>>(graph);
 
         int vertexId1 = GetNumber(INT32_MIN, INT32_MAX, "Enter the vertex: ");
         task3->result(vertexId1);
