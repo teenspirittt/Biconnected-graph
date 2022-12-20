@@ -170,10 +170,16 @@ template<class Vertex, class Edge>
 bool Graph<Vertex, Edge>::DeleteVertex(Vertex *vertex) {
   int index = GetIndex(vertex);
   edgeCounter -= value->DeleteOutEdges(index, directed);
+
   if (value->DeleteVertex(index)) {
     vertexVector.erase(vertexVector.begin() + index);
+
+    for (int i = 0; i < vertexVector.size(); ++i)
+      vertexVector[i]->SetId(i);
+
     return true;
   }
+
   return false;
 }
 
@@ -200,12 +206,22 @@ int Graph<Vertex, Edge>::GetIndex(Vertex *vertex) {
 template<class Vertex, class Edge>
 Edge *Graph<Vertex, Edge>::InsertEdge(Vertex *vertex1, Vertex *vertex2) {
   Edge *e = new Edge(vertex1, vertex2);
-  if (!value->InsertEdge(GetIndex(vertex1), GetIndex(vertex2), e))
-    throw invalid_argument("Invalid argument!");
-  if (!directed)
+  if (!value->InsertEdge(GetIndex(vertex1), GetIndex(vertex2), e)){
+    edgeVector.push_back(e);
+    return nullptr;
+  }
+
+  if (!directed) {
     value->InsertEdge(GetIndex(vertex2), GetIndex(vertex1), e);
+    edgeVector.push_back(e);
+  }
   ++edgeCounter;
   return e;
+}
+
+template<class Vertex, class Edge>
+vector<Edge *> Graph<Vertex, Edge>::GetEdges() {
+  return edgeVector;
 }
 
 template<class Vertex, class Edge>
@@ -273,7 +289,7 @@ void Graph<Vertex, Edge>::printGraph() {
     }
   } else {
     for (i = 0; i < GetNumOfVertex(); i++) {
-      if(GetVertex(i) == nullptr)
+      if (GetVertex(i) == nullptr)
         continue;
       v = GetVertex(i);
       cout << "*" << v->GetId() << "->";
@@ -296,9 +312,11 @@ bool Graph<Vertex, Edge>::IsEdgeExist(int v1, int v2) {
   return value->IsEdgeExist(v1, v2);
 }
 
-template
-class Graph<Vertex<int>, Edge<Vertex<int>, int, int>>;
 
+
+template class Graph<Vertex<string, int>, Edge<Vertex<string, int>, int, int>>;
+
+template class Graph<Vertex<int, int>, Edge<Vertex<int, int>, int, int>>;
 
 
 

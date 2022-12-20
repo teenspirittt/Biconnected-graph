@@ -7,8 +7,6 @@ add_executable(Biconnected-Graph
         src/Graph.h
         src/Edge.h
         src/Vertex.h
-        src/OutEdgeIterator.h
-        src/EdgeIterator.h
         src/GraphForm.h
         src/GraphMatrix.h
         src/GraphList.h

@@ -5,7 +5,7 @@
 
 static int VERTEX_COUNT = 0;
 
-template<typename V>
+template<typename N, typename V>
 class Vertex {
  public:
   V value;
@@ -13,29 +13,32 @@ class Vertex {
     id = VERTEX_COUNT++;
   }
 
-  Vertex(int id_, V value_) {
-    if (id_ >= VERTEX_COUNT) {
-      throw std::invalid_argument("Invalid id!");
-    } else {
-      id = id_;
-      value = value_;
-    }
+  Vertex(N name, V value) {
+    this->name = name;
+    this->value = value;
   }
 
   int GetId() {
     return id;
   }
+  void SetId(unsigned int id) {
+    this->id = id;
+  }
   V GetValue() {
     return value;
   }
-  void SetId(int id_) {
-    id = id_;
+  N GetName() {
+    return name;
   }
-  void SetValue(V value_) {
-    value = value_;
+  void SetName(N name) {
+    this->name = name;
+  }
+  void SetValue(V value) {
+    this->value = value;
   }
  private:
   int id;
+  N name;
 
 };
 

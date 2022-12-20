@@ -56,8 +56,22 @@ void ShowMainMenu() {
           "  13 IS DIRECTED\n"
           "  14 IS MATRIX\n"
           "  15 CHANGE FORM\n"
-          "  16 TEST ITERATOR\n"
-          "  17 CLEAR\n"
+          "  16 TEST VERTEX ITERATOR\n"
+          "  17 TEST EDGE ITERATOR\n"
+          "  18 TEST INCOMING EDGES ITERATOR\n"
+          "  19 TASK 1\n"
+          "  20 TASK 2\n"
+          "  21 CLEAR\n"
+          "  0 EXIT\n"
+          "===================\n";
+}
+
+void ShowIterMenu() {
+  cout << "\n===================\n"
+          "  ITERATOR MENU:\n"
+          "  1 BEGIN\n"
+          "  2 ++\n"
+          "  3 *\n"
           "  0 EXIT\n"
           "===================\n";
 }
@@ -65,17 +79,19 @@ void ShowMainMenu() {
 void MainMenu() {
   int choice;
   bool flag = true;
+  bool viFlag = false;
+  bool eiFlag = false;
   string str;
   int val;
   int id, v1, v2;
 
-  auto *graph = new Graph<Vertex<int>, Edge<Vertex<int>, int, int>>();
+  auto *graph = new Graph<Vertex<int, int>, Edge<Vertex<int, int>, int, int>>();
 
   while (flag) {
     system(clear_console_);
-     graph->printGraph();
+    graph->printGraph();
     ShowMainMenu();
-    choice = GetNumber(0, 14, "");
+    choice = GetNumber(0, 22, "");
     switch (choice) {
       /* add vertex */
       case 1: {
@@ -159,7 +175,7 @@ void MainMenu() {
         }
         break;
       }
-      /* set edge weight */
+        /* set edge weight */
       case 9: {
         v1 = GetNumber(INT32_MIN, INT32_MAX, "Enter the incoming vertex:\n");
         v2 = GetNumber(INT32_MIN, INT32_MAX, "Enter the outgoing vertex:\n");
@@ -212,7 +228,102 @@ void MainMenu() {
         }
         break;
       }
+        /* vertex iter */
       case 16: {
+
+        viFlag = true;
+        auto *vIter = new Graph<Vertex<int, int>, Edge<Vertex<int, int>, int, int>>::VertexIterator<int>(*graph);
+        while (viFlag) {
+          system(clear_console_);
+          graph->printGraph();
+          ShowIterMenu();
+          int viChoice = GetNumber(0, 3, "");
+          switch (viChoice) {
+            case 1: {
+              vIter->begin();
+              cout << "BEGIN\n";
+              cin.get();
+              break;
+            }
+            case 2: {
+              ++*vIter;
+              break;
+            }
+            case 3: {
+              if (vIter->getEnd())
+                cout << "LOST ITERATOR\n";
+              else
+                cout << "NAME = " << vIter->getId()
+                     << ", VALUE = " << vIter->getValue() << endl;
+              cin.get();
+              break;
+            }
+            case 0: {
+              viFlag = false;
+            }
+              break;
+          }
+        }
+        break;
+      }
+        /* edge iter */
+      case 17: {
+
+        eiFlag = true;
+
+        while (eiFlag) {
+          system(clear_console_);
+          graph->printGraph();
+          ShowIterMenu();
+          Graph<Vertex<int, int>, Edge<Vertex<int, int>, int, int>>::EdgeIterator<int> *eIter;
+          int viChoice = GetNumber(0, 3, "");
+          switch (viChoice) {
+            case 1: {
+              eIter = new Graph<Vertex<int, int>, Edge<Vertex<int, int>, int, int>>::EdgeIterator<int> (graph,0);
+              cout << "BEGIN\n";
+              cin.get();
+              break;
+            }
+            case 2: {
+              ++*eIter;
+              break;
+            }
+            case 3: {
+              if (eIter->getEnd())
+                cout << "LOST ITERATOR\n";
+              else
+                cout << "NAME V1= " << eIter->getIdV1()
+                     << ", VALUE V1= " << eIter->getValV1() << endl;
+              cout << "NAME V2= " << eIter->getIdV2()
+                   << ", VALUE V2= " << eIter->getValV2() << endl;
+              cin.get();
+              break;
+            }
+            case 0: {
+              eiFlag = false;
+            }
+              break;
+          }
+        }
+
+        break;
+      }
+        /* ie iter */
+      case 18: {
+
+        break;
+      }
+        /* Task 1*/
+      case 19: {
+
+        break;
+      }
+        /* Task 2 */
+      case 20: {
+
+        break;
+      }
+      case 21: {
 
         break;
       }
@@ -221,6 +332,7 @@ void MainMenu() {
         break;
     }
   }
+
 }
 
 #endif //BICONNECTED_GRAPH_SRC_MENU_H_
