@@ -63,7 +63,8 @@ void ShowMainMenu() {
           "  18 TEST INCOMING EDGES ITERATOR\n"
           "  19 TASK 1\n"
           "  20 TASK 2\n"
-          "  21 CLEAR\n"
+          "  21 RESET GRAPH\n"
+          "  22 NEW GRAPH\n"
           "  0 EXIT\n"
           "===================\n";
 }
@@ -78,6 +79,44 @@ void ShowIterMenu() {
           "===================\n";
 }
 
+void ShowDMenu() {
+  cout << "\n===================\n"
+          "  START MENU:\n"
+          "  1 DIRECTED GRAPH\n"
+          "  2 NON-DIRECTED GRAPH\n"
+          "===================\n";
+}
+
+Graph<Vertex<int, int>, Edge<Vertex<int, int>, int, int>> *introMenu(Graph<Vertex<int, int>,
+                                                                           Edge<Vertex<int, int>, int, int>> *graph) {
+  bool Dflag = true;
+  bool VEflag = false;
+  bool directed;
+  while (Dflag) {
+    system(clear_console_);
+    ShowDMenu();
+    int choice = GetNumber(0, 2, "");
+    switch (choice) {
+      case 1: {
+        directed = true;
+        Dflag = false;
+        break;
+      }
+      case 2: {
+        directed = false;
+        Dflag = false;
+        break;
+      }
+    }
+  }
+  system(clear_console_);
+  int V = GetNumber(0, 20, "Enter number of vertices:\n");
+  int E = GetNumber(0, (V * (V - 1)), "Enter number of edges:\n");
+  graph = new Graph<Vertex<int, int>, Edge<Vertex<int, int>, int, int>>(V, E, directed, true);
+
+  return graph;
+}
+
 void MainMenu() {
   int choice;
   bool flag = true;
@@ -88,7 +127,7 @@ void MainMenu() {
   int val;
   int id, v1, v2;
 
-  auto *graph = new Graph<Vertex<int, int>, Edge<Vertex<int, int>, int, int>>(4, 7, false, false);
+  Graph<Vertex<int, int>, Edge<Vertex<int, int>, int, int>> *graph = introMenu(graph);
 
   while (flag) {
     system(clear_console_);
@@ -383,8 +422,16 @@ void MainMenu() {
         cin.get();
         break;
       }
-      case 21: {
 
+      /* Reset */
+      case 21: {
+        graph = new Graph<Vertex<int, int>, Edge<Vertex<int, int>, int, int>>();
+        break;
+      }
+
+        /* New graph */
+      case 22: {
+        graph = introMenu(graph);
         break;
       }
         /* Exit */

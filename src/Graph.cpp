@@ -4,6 +4,7 @@
 template<class Vertex, class Edge>
 Graph<Vertex, Edge>::Graph() {
   value = new GraphList<Vertex, Edge>(false);
+  VERTEX_COUNT = 0;
   directed = false;
   dense = false;
   edgeCounter = 0;
@@ -11,6 +12,7 @@ Graph<Vertex, Edge>::Graph() {
 
 template<class Vertex, class Edge>
 Graph<Vertex, Edge>::Graph(int vertexCount, bool directed, bool dense) {
+  VERTEX_COUNT = 0;
   if (dense)
     value = new GraphMatrix<Vertex, Edge>(directed);
   else
@@ -29,6 +31,7 @@ vector<Vertex *> Graph<Vertex, Edge>::GetVector() {
 
 template<class Vertex, class Edge>
 Graph<Vertex, Edge>::Graph(int vertexCount, int edgeCount, bool directed, bool dense) {
+  VERTEX_COUNT = 0;
   if (dense)
     value = new GraphMatrix<Vertex, Edge>(directed);
   else
@@ -182,10 +185,6 @@ bool Graph<Vertex, Edge>::DeleteVertex(Vertex *vertex) {
 
     for (int i = 0; i < vertexVector.size(); ++i)
       vertexVector[i]->SetId(i);
-
-
-    
-
     VERTEX_COUNT--;
     return true;
   }

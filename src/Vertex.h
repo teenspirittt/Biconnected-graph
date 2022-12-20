@@ -10,7 +10,9 @@ class Vertex {
  public:
   V value;
   Vertex() {
+    srand((unsigned) time(NULL));
     id = VERTEX_COUNT++;
+    value = rand() % 100;
   }
 
   Vertex(N name, V value) {
