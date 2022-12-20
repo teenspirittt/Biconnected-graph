@@ -183,6 +183,9 @@ bool Graph<Vertex, Edge>::DeleteVertex(Vertex *vertex) {
     for (int i = 0; i < vertexVector.size(); ++i)
       vertexVector[i]->SetId(i);
 
+
+    
+
     VERTEX_COUNT--;
     return true;
   }
