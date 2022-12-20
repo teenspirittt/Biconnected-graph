@@ -11,6 +11,8 @@
 #include "GraphList.h"
 #include "Vertex.h"
 #include <iostream>
+#include "Task2.h"
+#include "Task1.h"
 
 #ifdef __linux__
 #define clear_console_ "clear"
@@ -86,7 +88,7 @@ void MainMenu() {
   int val;
   int id, v1, v2;
 
-  auto *graph = new Graph<Vertex<int, int>, Edge<Vertex<int, int>, int, int>>();
+  auto *graph = new Graph<Vertex<int, int>, Edge<Vertex<int, int>, int, int>>(4, 7, false, false);
 
   while (flag) {
     system(clear_console_);
@@ -247,7 +249,6 @@ void MainMenu() {
       }
         /* vertex iter */
       case 16: {
-
         viFlag = true;
         auto *vIter = new Graph<Vertex<int, int>, Edge<Vertex<int, int>, int, int>>::VertexIterator<int>(*graph);
         while (viFlag) {
@@ -285,9 +286,7 @@ void MainMenu() {
       }
         /* edge iter */
       case 17: {
-
         eiFlag = true;
-
         while (eiFlag) {
           system(clear_console_);
           graph->printGraph();
@@ -338,7 +337,10 @@ void MainMenu() {
           int viChoice = GetNumber(0, 3, "");
           switch (viChoice) {
             case 1: {
-              oeIter = new Graph<Vertex<int, int>, Edge<Vertex<int, int>, int, int>>::OutgoingEdgeIterator<int>(graph,graph->GetVertex(vertexId),0);
+              oeIter = new Graph<Vertex<int, int>, Edge<Vertex<int, int>, int, int>>::OutgoingEdgeIterator<int>(graph,
+                                                                                                                graph->GetVertex(
+                                                                                                                    vertexId),
+                                                                                                                0);
               cout << "BEGIN\n";
               cin.get();
               break;
@@ -366,14 +368,19 @@ void MainMenu() {
         }
         break;
       }
-        /* Task 1*/
+        /* Task 1 */
       case 19: {
-
+        auto *task1 = new Task1<Vertex<int, int>, Edge<Vertex<int, int>, int, int>>(graph);
+        graph = task1->toBiconnectedGraph();
         break;
       }
         /* Task 2 */
       case 20: {
+        auto *task3 = new Task3<Vertex<int, int>, Edge<Vertex<int, int>, int, int>>(graph);
 
+        int vertexId1 = GetNumber(INT32_MIN, INT32_MAX, "Enter the vertex: ");
+        task3->result(vertexId1);
+        cin.get();
         break;
       }
       case 21: {

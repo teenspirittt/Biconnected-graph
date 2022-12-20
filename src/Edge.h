@@ -15,7 +15,7 @@ class Edge {
     }
     weight = 0;
   }
-  Edge(Vertex *vertex1, Vertex *vertex2, int weight_) {
+  Edge(Vertex *vertex1, Vertex *vertex2, int weight) {
     if (vertex1 == nullptr || vertex2 == nullptr) {
       throw std::invalid_argument("One of the vertices is null!");
     } else {
@@ -25,7 +25,7 @@ class Edge {
     }
   }
 
-  Edge(Vertex *vertex1, Vertex *vertex2, int weight_, V value_) {
+  Edge(Vertex *vertex1, Vertex *vertex2, int weight, V value) {
     if (vertex1 == nullptr || vertex2 == nullptr) {
       throw std::invalid_argument("One of the vertices is null!");
     } else {

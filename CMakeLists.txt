@@ -13,5 +13,5 @@ add_executable(
         src/GraphList.h
         src/menu.h
         src/Task2.h
-        )
+        "src/Task1.h")
 

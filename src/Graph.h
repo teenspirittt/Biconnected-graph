@@ -37,6 +37,7 @@ class Graph {
   bool DeleteEdge(Vertex *vertex1, Vertex *vertex2);
   Edge *GetEdge(Vertex *vertex1, Vertex *vertex2);
   vector<Edge *> GetEdges();
+  vector<Vertex *> GetVector();
   void printGraph();
   bool IsEdgeExist(int v1, int v2);
  private:
@@ -244,6 +245,7 @@ class Graph {
   };
 
 };
+
 
 
 

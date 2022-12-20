@@ -23,6 +23,11 @@ Graph<Vertex, Edge>::Graph(int vertexCount, bool directed, bool dense) {
 }
 
 template<class Vertex, class Edge>
+vector<Vertex *> Graph<Vertex, Edge>::GetVector() {
+  return vertexVector;
+}
+
+template<class Vertex, class Edge>
 Graph<Vertex, Edge>::Graph(int vertexCount, int edgeCount, bool directed, bool dense) {
   if (dense)
     value = new GraphMatrix<Vertex, Edge>(directed);
@@ -55,6 +60,7 @@ Graph<Vertex, Edge>::Graph(int vertexCount, int edgeCount, bool directed, bool d
     if (!directed) {
       value->InsertEdge(v2, v1, e);
     }
+    edgeVector.push_back(e);
     edgeCounter++;
   }
 }
@@ -79,14 +85,14 @@ Graph<Vertex, Edge>::~Graph() {
 
 template<class Vertex, class Edge>
 void Graph<Vertex, Edge>::VertexPutIn(int vertexCount, GraphForm<Vertex, Edge> *value) {
-  for (int i = 0; i < vertexCount; ++i) {
+  for (int i = 0; i < vertexCount; ++i)
     value->InsertVertex(i);
-    for (int j = 0; j < vertexCount; ++j) {
-      auto *v = new Vertex();
-      vertexVector.push_back(v);
-      value->InsertVertex(i);
-    }
+  for (int j = 0; j < vertexCount; ++j) {
+    auto *v = new Vertex();
+    vertexVector.push_back(v);
+    value->InsertVertex(j);
   }
+
 }
 
 template<class Vertex, class Edge>
@@ -177,9 +183,9 @@ bool Graph<Vertex, Edge>::DeleteVertex(Vertex *vertex) {
     for (int i = 0; i < vertexVector.size(); ++i)
       vertexVector[i]->SetId(i);
 
+    VERTEX_COUNT--;
     return true;
   }
-
   return false;
 }
 
@@ -286,7 +292,7 @@ void Graph<Vertex, Edge>::printGraph() {
           e = GetEdge(GetVertex(i), GetVertex(j));
           cout << "    " << e->GetWeight();
         } else
-          cout << "    " << "0";
+          cout << "    " << "-";
       cout << endl;
     }
   } else {

@@ -23,22 +23,18 @@ class Task3 {
     Set(g);
   }
 
-  explicit Task3(const Graph<Vertex, Edge> &G) {
-    if (!G.IsMatrix())
-      this->value = new GraphMatrix<Vertex, Edge>(*(G.data));
+  explicit Task3(const Graph<Vertex, Edge> &graph_) {
+    if (!graph_.IsMatrix())
+      this->value = new GraphMatrix<Vertex, Edge>(graph_.value);
     else
-      this->value = new GraphList<Vertex, Edge>(*(G.data));
-    this->directed = G.directed;
-    this->dense = G.dense;
+      this->value = new GraphList<Vertex, Edge>(graph_.value);
+    this->directed = graph_.directed;
+    this->dense = graph_.dense;
   }
 
   void Set(Graph<Vertex, Edge> *g) {
     if (g->IsDirected()) cout << " FAIL: need non directed " << endl;
     this->graph = g;
-  }
-
-  void Restart() {
-    result();
   }
 
   void result(int vertex) {
@@ -63,21 +59,22 @@ class Task3 {
       }
       for (unsigned i = 0; i < size; ++i) {
         if (graph->IsEdgeExist(minVertex, i)) {
-          string strMinVertex = to_string(minVertex);
-          string strI = to_string(i);
-          if (i != minVertex && q[i] == 1 && keys[i] > graph->readEdgeWeight(strMinVertex, strI)) {
+
+          if (i != minVertex && q[i] == 1
+              && keys[i] > graph->GetEdge(graph->GetVertex(minVertex), graph->GetVertex(i))->GetWeight()) {
             AncestorsEdge[i] = minVertex;
-            keys[i] = graph->readEdgeWeight(strMinVertex, strI);
-            weightOstTree += graph->readEdgeWeight(strMinVertex, strI);
+            keys[i] = graph->GetEdge(graph->GetVertex(minVertex), graph->GetVertex(i))->GetWeight();
+            weightOstTree += graph->GetEdge(graph->GetVertex(minVertex), graph->GetVertex(i))->GetWeight();
           }
         }
+
       }
       --n;
       q[minVertex] = 0;
     }
     for (int i = 0; i < size; i++) {
       if (AncestorsEdge[i] != -1) {
-        cout << " " << i << " " << " " << " " << AncestorsEdge[i] << endl;
+        cout << "Vertex from: " << i << " Vertex to: " << AncestorsEdge[i] << endl;
       }
     }
   }
